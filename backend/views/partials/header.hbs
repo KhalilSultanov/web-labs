@@ -1,0 +1,31 @@
+<header>
+    <div class="header_block_first">
+        <img src="/img/logo.png" height="100px">
+        <h2 class="header_block_first-title">Магазин автозапчастей "Жигуль"</h2>
+        <h3 class="header_block_first-title">Город Москва</h3>
+        <h3 class="header_block_first-title">График работы: 8:00–20:00</h3>
+        <aside class="header_block_first-telephone">
+            <a class="tmp" href="tel:+79999999999">8 (999) 999-99-99</a>
+        </aside>
+        <aside class="header_block_first-session">
+            {{#if user}}
+                <span class="auth-info">Привет, <strong>{{user}}</strong></span>
+            {{else}}
+                <a class="auth-link" href="/?auth=1">Войти</a>
+            {{/if}}
+        </aside>
+
+    </div>
+
+    <hr>
+
+    <nav>
+        <ul class="menu">
+            <li><a href="/">Главная</a></li>
+            <li><a href="/pay">Оплата</a></li>
+            <li><a href="/delivery">Доставка</a></li>
+            <li><a href="/reviews">Отзывы</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+        </ul>
+    </nav>
+</header>

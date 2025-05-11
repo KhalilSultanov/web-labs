@@ -1,36 +1,37 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-header{
+
+header {
     background-color: rgba(0, 0, 0, 0.04);
     margin: 0;
 }
 
 
-
-.header_block_first{
+.header_block_first {
     display: flex;
 }
 
-.header_block_first-telephone{
+
+.header_block_first-telephone {
     position: absolute;
     right: 30px;
     top: 20px;
 }
 
-.header_block_first-title{
+.header_block_first-title {
     margin: 20px;
     text-align: center;
 }
 
 @media screen and (max-width: 1000px) {
-    .header_block_first-title{
+    .header_block_first-title {
         display: none;
     }
 }
 
-.menu{
+.menu {
     display: flex;
     justify-content: space-around;
     list-style: none;
@@ -40,30 +41,30 @@ header{
     color: black;
 }
 
-.menu a{
+.menu a {
     color: black;
     padding: 1px 5px;
     text-decoration: none;
 }
 
-h1, h2{
+h1, h2 {
     margin: 30px;
 }
 
-.block_auto_parts{
+.block_auto_parts {
     display: flex;
     margin: 100px;
     height: 200px;
     background-color: gray;
 }
 
-.block_auto_parts-menu{
+.block_auto_parts-menu {
     font-size: 25px;
     overflow-y: scroll;
     background-color: #4d4d4d;
 }
 
-.block_auto_parts-menu ul{
+.block_auto_parts-menu ul {
     text-decoration: none;
     list-style: none;
 }
@@ -71,24 +72,24 @@ h1, h2{
 .block_auto_parts-menu li {
     margin: 10px 0;
 }
-.block_auto_parts-menu a{
+
+.block_auto_parts-menu a {
     text-decoration: none;
     color: #8f8f8f;
 }
 
-.block_auto_parts-menu a:hover{
+.block_auto_parts-menu a:hover {
     text-decoration: none;
     color: white;
 }
 
 
-.block_auto_parts-cards{
+.block_auto_parts-cards {
     width: 100%;
 }
 
 
-
-.block_auto_parts-cards-elem{
+.block_auto_parts-cards-elem {
     list-style: none;
     display: inline-flex;
     width: 33%;
@@ -98,7 +99,7 @@ h1, h2{
     position: relative; /* Добавим для позиционирования потомков */
 }
 
-.block_auto_parts-cards-elem a{
+.block_auto_parts-cards-elem a {
     display: flex; /* Используем flex для занимания всего пространства */
     width: 100%; /* Занимает всю ширину блока .block_auto_parts-cards-elem */
     height: 100%; /* Занимает всю высоту блока .block_auto_parts-cards-elem */
@@ -116,29 +117,29 @@ h1, h2{
 }
 
 
-.oil{
+.oil {
     background-size: cover;
     background-image: url('../img/oil.jpg');
 }
 
-.disk{
+.disk {
     background-size: cover;
     background-image: url('../img/disk.jpg');
 }
 
-.AKB{
+.AKB {
     background-size: cover;
     background-image: url('../img/AKB.jpg');
 }
 
-.block_auto_marks{
+.block_auto_marks {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.block_auto_marks li{
+.block_auto_marks li {
     width: 22%;
     height: 50px;
     background-color: #c4c4c4;
@@ -146,7 +147,7 @@ h1, h2{
     position: relative;
 }
 
-.block_auto_marks a{
+.block_auto_marks a {
     display: flex;
     text-decoration: none;
     color: white;
@@ -158,23 +159,23 @@ h1, h2{
     vertical-align: middle;
 }
 
-.block_auto_marks li:hover{
+.block_auto_marks li:hover {
     background-color: #b5b5b5;
 }
 
-.block_auto_marks a:hover{
+.block_auto_marks a:hover {
     color: #de5050;
 }
 
-.block_popular{
+.block_popular {
     margin: 15px;
 }
 
-.block_popular ul{
+.block_popular ul {
     list-style: none;
 }
 
-.block_popular li{
+.block_popular li {
     display: flex;
     flex-direction: column;
     margin: 5px;
@@ -182,29 +183,44 @@ h1, h2{
     width: 30px;
 }
 
-.block_popular-name{
+.block_popular-name {
     text-decoration: underline black;
     font-size: 1.2em;
 }
 
-.block_popular-price{
+.block_popular-price {
     font-size: 1.3em;
     padding-top: 4px;
     font-weight: bold;
 }
 
-.block_popular-background{
+.block_popular-background {
     background-color: #f5f5f5;
 }
 
-footer{
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+}
+
+footer {
     background-color: rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 60px;
     width: 100%;
-    bottom: 0;
 }
 
 
@@ -219,12 +235,12 @@ table {
     width: 800px;
     border-collapse: collapse;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     padding: 15px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     color: black;
 }
 
@@ -232,28 +248,52 @@ th {
     text-align: left;
 }
 
-tr:nth-child(even) { background: #cfcfcf; }
-tr:nth-child(odd) { background: #e5e5e5 }
-tr:hover td {background: #b5b5b5;}
+tr:nth-child(even) {
+    background: #cfcfcf;
+}
 
-.active{
+tr:nth-child(odd) {
+    background: #e5e5e5
+}
+
+tr:hover td {
+    background: #b5b5b5;
+}
+
+.active {
     border: 1px solid gray;
 }
 
-form{
+form {
     display: flex;
     flex-direction: column;
     width: 150px;
     margin: 30px;
 }
 
-input{
+input {
     margin: 2px;
     border: 1px solid black;
     background-color: #e5e5e5;
     color: black;
     border-radius: 30%;
     height: 40px;
+}
+
+.header_block_first-session {
+    position: absolute;
+    right: 30px;
+    top: 60px; /* немного ниже номера */
+}
+
+.auth-link, .auth-info {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
 }
 
 

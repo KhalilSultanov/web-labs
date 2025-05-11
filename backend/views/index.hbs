@@ -1,0 +1,51 @@
+<main>
+    <h1>Автомобильные запчасти</h1>
+    <div class="block_auto_parts">
+        <div class="block_auto_parts-menu">
+            <ul>
+                <li><a href="#">Автоакустика</a></li>
+                <li><a href="#">Автомагнитолы</a></li>
+                <li><a href="#">Регистраторы</a></li>
+                <li><a href="#">Лампы</a></li>
+                <li><a href="#">Химия</a></li>
+                <li><a href="#">Камеры заднего вида</a></li>
+                <li><a href="#">Аксесуары</a></li>
+            </ul>
+        </div>
+
+        <div class="block_auto_parts-cards">
+            <div class="block_auto_parts-cards-elem">
+                <a class="oil" href="#">Масла</a>
+            </div>
+            <div class="block_auto_parts-cards-elem">
+                <a class="disk" href="#">Шины/Диски</a>
+            </div>
+            <div class="block_auto_parts-cards-elem">
+                <a class="AKB" href="#">АКБ</a>
+            </div>
+        </div>
+    </div>
+
+    <h2>Запчасти по маркам</h2>
+    <ul class="block_auto_marks">
+        {{#each brands}}
+            <li><a href="#">{{this}}</a></li>
+        {{/each}}
+    </ul>
+
+    <h2>Популярные товары</h2>
+    <div class="block_popular">
+        <ul class="block_popular-cards">
+            {{#each popular}}
+                <li>
+                    <img src="{{img}}" alt="{{name}}" width="300px">
+                    <div class="block_popular-background">
+                        <p class="block_popular-name">Наименование: {{name}}</p>
+                        <p class="block_popular-manufacturer">Производитель: {{manufacturer}}</p>
+                        <p class="block_popular-price">Цена: {{price}}</p>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+</main>
