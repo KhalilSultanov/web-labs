@@ -17,6 +17,7 @@ import {diskStorage} from 'multer';
 import {extname} from 'path';
 import {Param} from '@nestjs/common'; // обязательно!
 import {MessageEvent} from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 
 function sseEvent(type: string, data: any): MessageEvent {
     return {
@@ -25,6 +26,7 @@ function sseEvent(type: string, data: any): MessageEvent {
     };
 }
 
+@ApiExcludeController()
 @Controller('products')
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {
