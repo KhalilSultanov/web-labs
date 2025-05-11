@@ -17,7 +17,7 @@ async function bootstrap() {
     hbs.registerPartials(join(__dirname, '..', 'views/partials'));
 
     app.set('view options', {
-        layout: 'layout', // <== вот это обязательно!
+        layout: 'layout',
     });
 
 

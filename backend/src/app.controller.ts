@@ -1,24 +1,21 @@
 import {Controller, Get, Query, Render} from '@nestjs/common';
+import {AppService} from './app.service';
 
 @Controller()
 export class AppController {
+    constructor(private readonly appService: AppService) {
+    }
+
     @Get()
     @Render('index')
-    getHome(@Query('auth') auth: string) {
+    async getHome(@Query('auth') auth: string) {
         const user = auth === '1' ? 'Иван' : null;
 
-        const brands = Array(12).fill('ВАЗ');
-
-        const popular = Array(6).fill(null).map(() => ({
-            name: 'Кардан',
-            manufacturer: 'Россия',
-            price: '1500р',
-            img: '/img/cardan.jpg',
-        }));
+        const brands = await this.appService.getAllBrands();
+        const popular = await this.appService.getPopularProducts();
 
         return {user, brands, popular};
     }
-
 
     @Get('/pay')
     @Render('pay')
@@ -31,7 +28,7 @@ export class AppController {
     getDeliveryPage() {
         return {
             title: 'Доставка',
-            user: null, // или текущий пользователь, если есть
+            user: null,
         };
     }
 
@@ -40,7 +37,7 @@ export class AppController {
     getReviewsPage() {
         return {
             title: 'Отзывы',
-            user: null, // или 'Иван', если нужен авторизованный пользователь
+            user: null,
         };
     }
 
@@ -49,9 +46,7 @@ export class AppController {
     getContactsPage() {
         return {
             title: 'Контакты',
-            user: null, // или имя, если залогинен
+            user: null,
         };
     }
-
-
 }
