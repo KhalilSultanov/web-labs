@@ -35,17 +35,18 @@
 
     <h2>Популярные товары</h2>
     <div class="block_popular">
-        <ul class="block_popular-cards">
+        <div class="block_popular-cards"> <!-- был popular-slider -->
             {{#each popular}}
-                <li>
-                    <img src="{{img}}" alt="{{name}}" width="300px">
+                <div class="popular-item">
+                    <img src="{{image}}" alt="{{name}}" width="300px">
                     <div class="block_popular-background">
                         <p class="block_popular-name">Наименование: {{name}}</p>
                         <p class="block_popular-manufacturer">Производитель: {{manufacturer}}</p>
                         <p class="block_popular-price">Цена: {{price}}</p>
                     </div>
-                </li>
+                </div>
             {{/each}}
-        </ul>
+        </div>
     </div>
+
 </main>

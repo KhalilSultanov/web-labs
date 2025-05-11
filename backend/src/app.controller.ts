@@ -14,8 +14,11 @@ export class AppController {
         const brands = await this.appService.getAllBrands();
         const popular = await this.appService.getPopularProducts();
 
-        return {user, brands, popular};
+        console.log('Популярные товары:', popular); // <--- вот это важно!
+
+        return { user, brands, popular };
     }
+
 
     @Get('/pay')
     @Render('pay')

@@ -1,13 +1,16 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     const formReviews = document.getElementById("form-reviews");
-    const tableReviews = document.getElementById("reviews-table")
+    const tableReviews = document.getElementById("reviews-table");
+
+    // проверяем наличие элементов
+    if (!formReviews || !tableReviews) return;
 
     let storedTable = localStorage.getItem("Data");
     if (storedTable) {
         tableReviews.innerHTML = storedTable;
     }
 
-    formReviews.onsubmit = function (event){
+    formReviews.onsubmit = function (event) {
         event.preventDefault();
 
         let formData = new FormData(event.target);
@@ -20,5 +23,5 @@ window.addEventListener('DOMContentLoaded', function() {
         row.insertCell().textContent = formData.get('rating');
 
         localStorage.setItem("Data", tableReviews.innerHTML);
-    }
+    };
 });
