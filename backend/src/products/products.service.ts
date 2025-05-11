@@ -1,6 +1,5 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {PrismaService} from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import {UpdateProductDto} from "./dto/update-product.dto";
 
 
@@ -48,17 +47,16 @@ export class ProductsService {
     }
 
     async update(id: number, dto: UpdateProductDto) {
-        // удаляем undefined‑поля,
-        // чтобы не перезаписать их в БД
         const data = Object.fromEntries(
             Object.entries(dto).filter(([, v]) => v !== undefined),
-        ) as Prisma.ProductUpdateInput;
+        );
 
         return this.prisma.product.update({
-            where: {id},
+            where: { id },
             data,
         });
     }
+
 
     async delete(id: number) {
         return this.prisma.product.delete({where: {id}});
