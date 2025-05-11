@@ -20,6 +20,7 @@ export class AppController {
     }
 
 
+
     @Get('/pay')
     @Render('pay')
     getPay() {

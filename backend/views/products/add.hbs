@@ -1,0 +1,33 @@
+<h1>Добавить товар</h1>
+
+<form action="/products" method="POST" enctype="multipart/form-data" style="max-width: 400px;">
+    <label for="name">Название:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="manufacturer">Производитель:</label><br>
+    <select id="manufacturer" name="manufacturer" required>
+        {{#each manufacturers}}
+            <option value="{{this.manufacturer}}">{{this.manufacturer}}</option>
+        {{/each}}
+    </select><br><br>
+
+    <label for="price">Цена:</label><br>
+    <input type="number" id="price" name="price" step="0.01" required><br><br>
+
+    <label for="categoryId">Категория:</label><br>
+    <select id="categoryId" name="categoryId" required>
+        {{#each categories}}
+            <option value="{{this.id}}">{{this.name}}</option>
+        {{/each}}
+    </select><br><br>
+
+    <label for="image">Загрузить изображение:</label><br>
+    <input type="file" id="image" name="image"><br><br>
+
+    <button style="padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 4px;">
+        Добавить
+    </button>
+</form>
+
+<br>
+<a href="/products" style="color: #007BFF; text-decoration: underline;">← Назад к списку</a>

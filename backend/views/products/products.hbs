@@ -1,0 +1,28 @@
+<h1>Список товаров</h1>
+
+<a href="/products/add">Добавить товар</a>
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Производитель</th>
+        <th>Цена</th>
+        <th>Категория</th>
+        <th>Изображение</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each products}}
+        <tr onclick="location.href='/products/{{id}}'" style="cursor: pointer;">
+            <td>{{id}}</td>
+            <td>{{name}}</td>
+            <td>{{manufacturer}}</td>
+            <td>{{price}}</td>
+            <td>{{categoryId}}</td>
+            <td><img src="{{image}}" alt="{{name}}" width="100"/></td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
