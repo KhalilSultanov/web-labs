@@ -90,4 +90,8 @@ export class ProductsService {
         return product;
     }
 
+    async getCategory(id: number) {
+        return this.prisma.category.findUnique({ where: { id } });
+    }
+
 }

@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateProductInput {
+  categoryId: Int!
+  image: String
+  manufacturer: String!
+  name: String!
+  price: Int!
+}
+
+type Mutation {
+  createProduct(data: CreateProductInput!): ProductModel!
+  deleteProduct(id: Int!): Boolean!
+  updateProduct(data: UpdateProductInput!): ProductModel!
+}
+
+type ProductModel {
+  category: String
+  categoryId: Int!
+  id: ID!
+  image: String
+  manufacturer: String!
+  name: String!
+  price: Int!
+}
+
+type ProductPage {
+  data: [ProductModel!]!
+  total: Int!
+}
+
+type Query {
+  product(id: Int!): ProductModel!
+  products(limit: Int! = 10, page: Int! = 1): ProductPage!
+}
+
+input UpdateProductInput {
+  categoryId: Int
+  id: Int!
+  image: String
+  manufacturer: String
+  name: String
+  price: Int
+}
