@@ -15,6 +15,7 @@ import {
     fieldExtensionsEstimator,
     simpleEstimator,
 } from 'graphql-query-complexity';
+import {CacheModule} from "@nestjs/cache-manager";
 
 @Module({
     imports: [
@@ -44,6 +45,11 @@ import {
 
         PrismaModule,
         ProductsModule,
+        CacheModule.register({
+            ttl: 30,         // время жизни записи в секундах
+            max: 100,        // максимум записей в кэше
+            isGlobal: true,  // чтобы не импортировать в каждом модуле
+        }),
     ],
     controllers: [AppController],
     providers: [AppService],

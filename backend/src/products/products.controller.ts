@@ -7,17 +7,18 @@ import {
     Res,
     UploadedFile,
     UseInterceptors,
-    Sse, BadRequestException,
+    Sse, BadRequestException, Header,
 } from '@nestjs/common';
 import {Request, Response} from 'express';
 import {ProductsService} from './products.service';
 import {Observable, Subject, tap} from 'rxjs';
 import {FileInterceptor} from '@nestjs/platform-express';
-import {diskStorage} from 'multer';
-import {extname} from 'path';
+import {diskStorage, memoryStorage} from 'multer';
 import {Param} from '@nestjs/common'; // обязательно!
 import {MessageEvent} from '@nestjs/common';
-import { ApiExcludeController } from '@nestjs/swagger';
+import {ApiExcludeController} from '@nestjs/swagger';
+import {EtagInterceptor} from "../common/interceptors/etag.interceptor";
+import {StorageService} from "../storage/storage.service";
 
 function sseEvent(type: string, data: any): MessageEvent {
     return {
@@ -29,12 +30,17 @@ function sseEvent(type: string, data: any): MessageEvent {
 @ApiExcludeController()
 @Controller('products')
 export class ProductsController {
-    constructor(private readonly productsService: ProductsService) {
+    constructor(
+        private readonly productsService: ProductsService,
+        private readonly storageService: StorageService, // 👈 добавили
+    ) {
     }
 
     private productStream = new Subject<any>();
 
+    @UseInterceptors(EtagInterceptor)
     @Get()
+    @Header('Cache-Control', 'public, max-age=3600')
     @Render('products/products')
     async getAll() {
         const products = await this.productsService.findAll();
@@ -53,14 +59,9 @@ export class ProductsController {
 
     @Post(':id/edit')
     @UseInterceptors(FileInterceptor('image', {
-        storage: diskStorage({
-            destination: './public/uploads',
-            filename: (req, file, cb) => {
-                const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                cb(null, unique + extname(file.originalname));
-            },
-        }),
+        storage: memoryStorage(),
     }))
+
     async updateProduct(
         @Param('id') id: string,
         @UploadedFile() file: Express.Multer.File,
@@ -75,8 +76,14 @@ export class ProductsController {
         };
 
         if (file) {
-            data.image = `/uploads/${file.filename}`;
+            const imageUrl = await this.storageService.upload(
+                file.buffer,
+                file.originalname,
+                file.mimetype,
+            );
+            data.image = imageUrl;
         }
+
 
         await this.productsService.update(Number(id), data);
         res.redirect(`/products/${id}`);
@@ -91,13 +98,7 @@ export class ProductsController {
     @Post()
     @UseInterceptors(
         FileInterceptor('image', {
-            storage: diskStorage({
-                destination: './public/uploads',
-                filename: (req, file, cb) => {
-                    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                    cb(null, unique + extname(file.originalname));
-                },
-            }),
+            storage: memoryStorage(),
         }),
     )
     async create(
@@ -105,15 +106,20 @@ export class ProductsController {
         @Req() req: Request,
         @Res() res: Response,
     ) {
+
+        const imageUrl = file
+            ? await this.storageService.upload(file.buffer, file.originalname, file.mimetype)
+            : '';
+
+
         const product = {
             name: String(req.body.name),
             manufacturer: String(req.body.manufacturer),
             price: Number(req.body.price),
             categoryId: Number(req.body.categoryId),
-            image: file ? `/uploads/${file.filename}` : '',
+            image: imageUrl,
         };
 
-        console.log('📦 FINAL PRODUCT DATA:', product);
 
         const created = await this.productsService.create(product);
 
@@ -125,11 +131,9 @@ export class ProductsController {
 
     @Sse('events')
     streamProducts(): Observable<MessageEvent> {
-        console.log('📡 SSE соединение установлено /products/events');
 
         return this.productStream.asObservable().pipe(
             tap(event => {
-                console.log('📤 Отправка SSE события:', event);
             })
         );
     }

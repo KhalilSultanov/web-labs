@@ -1,20 +1,37 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {PrismaService} from '../prisma/prisma.service';
 import {UpdateProductDto} from "./dto/update-product.dto";
-
+import {CACHE_MANAGER} from "@nestjs/cache-manager";
+import {CacheStore} from "@nestjs/common/cache";
 
 @Injectable()
 export class ProductsService {
-    constructor(private prisma: PrismaService) {
+    constructor(
+        private prisma: PrismaService,
+        @Inject(CACHE_MANAGER) private cacheManager: CacheStore,
+    ) {
     }
 
-    findAll() {
-        return this.prisma.product.findMany({
-            orderBy: {
-                id: 'asc',
-            },
+
+    async findAll() {
+        const cacheKey = 'products:all';
+
+        const cached = await this.cacheManager.get(cacheKey);
+        if (cached) {
+            console.log('📦 Получено из кэша');
+            return cached;
+        }
+
+        console.log('🔥 findAll вызван');
+        const products = await this.prisma.product.findMany({
+            orderBy: {id: 'asc'},
         });
+
+        await this.cacheManager.set(cacheKey, products, { ttl: 30 }); // TTL в секундах
+        console.log('💾 Сохранено в кэш');
+        return products;
     }
+
 
     async create(data: {
         name: string;
@@ -23,7 +40,7 @@ export class ProductsService {
         categoryId: number;
         image?: string;
     }) {
-        return this.prisma.product.create({
+        const created = await this.prisma.product.create({
             data: {
                 name: data.name,
                 manufacturer: data.manufacturer,
@@ -32,6 +49,11 @@ export class ProductsService {
                 image: data.image ?? '',
             },
         });
+
+        await this.cacheManager.del!('products:all');
+        console.log('♻️ Кэш очищен после создания');
+
+        return created;
     }
 
 
@@ -51,15 +73,25 @@ export class ProductsService {
             Object.entries(dto).filter(([, v]) => v !== undefined),
         );
 
-        return this.prisma.product.update({
-            where: { id },
+        const updated = await this.prisma.product.update({
+            where: {id},
             data,
         });
+
+        await this.cacheManager.del!('products:all');
+        console.log('♻️ Кэш очищен после обновления');
+
+        return updated;
     }
 
 
     async delete(id: number) {
-        return this.prisma.product.delete({where: {id}});
+        const deleted = await this.prisma.product.delete({where: {id}});
+
+        await this.cacheManager.del!('products:all');
+        console.log('♻️ Кэш очищен после удаления');
+
+        return deleted;
     }
 
 
@@ -91,7 +123,7 @@ export class ProductsService {
     }
 
     async getCategory(id: number) {
-        return this.prisma.category.findUnique({ where: { id } });
+        return this.prisma.category.findUnique({where: {id}});
     }
 
 }

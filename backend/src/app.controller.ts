@@ -16,7 +16,6 @@ export class AppController {
         const brands = await this.appService.getAllBrands();
         const popular = await this.appService.getPopularProducts();
 
-        console.log('Популярные товары:', popular); // <--- вот это важно!
 
         return { user, brands, popular };
     }

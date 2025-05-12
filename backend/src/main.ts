@@ -8,6 +8,7 @@ import {HttpExceptionFilter} from "./common/filters/http-exception.filter";
 import {PrismaExceptionFilter} from "./common/filters/prisma-exception.filter";
 import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
 import {NestFactory} from "@nestjs/core";
+import {LoggingInterceptor} from "./common/interceptors/logging.interceptor";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -53,6 +54,7 @@ async function bootstrap() {
         .addTag('Products', 'Операции с товарами')
         .build();
 
+    app.useGlobalInterceptors(new LoggingInterceptor());
 
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);

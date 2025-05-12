@@ -37,7 +37,6 @@ async function main() {
         ],
     });
 
-    console.log('✅ Популярные товары успешно добавлены');
 }
 
 main()
